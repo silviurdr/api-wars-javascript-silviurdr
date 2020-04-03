@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+<div id="register-form-container">
+    <form class="register-form" method="POST">
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="username" class="form-control" id="username" name="username"  aria-describedby="usernameHelp" placeholder="Enter username" required>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Password {{usernameUsed}}</label>
+            <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+        </div>
+        {% if wrong_user is defined%} 
+            <p class="username-used-message">Username or password incorrect is</p>
+        {% endif %}
+        <button type="submit" class="btn btn-light register-login-button">Login</button>
+    </form>
+</div>
+
+{% endblock %}

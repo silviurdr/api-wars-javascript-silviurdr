@@ -5,7 +5,19 @@ let citizenTable = document.getElementById("citizen-table-content");
 
 let modalTitle = document.getElementById('modal-title')
 
+let mainContent = document.querySelector(".main-content");
+
 const allPlanets = []
+
+const headerLinks = document.getElementsByClassName('header-link')
+
+// const audio = document.getElementsByTagName("audio")[0];
+
+// // for (headerLink of headerLinks) {
+// //     headerLink.addEventListener('mouseover', function () {
+// //         audio.play();
+// //     })
+// // }
 
 
 const formatDiameter = num => {
@@ -72,7 +84,6 @@ const formatPlanetPopulation = population => {
         }
     } else return population;
 }
-
 
 const formatPlanetResidents = (residents, planet) => {
     return residents.length > 0 ? `<button type="button" class="btn btn-secondary residents-button" data-planet="${

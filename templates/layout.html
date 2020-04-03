@@ -19,16 +19,27 @@
             <ul class="nav navbar-nav">
             <li class="active"><a class="header-link" href="#">Planet List</a></li>
             <li><a class="header-link" href="#">Voting Statistics</a></li>
-            <li><a class="header-link" href="#">Registration</a></li>
-            <li><a class="header-link" href="#">Login</a></li>
-            <li><a class="header-link" href="#">Logout</a></li>
+            {% if login_username is not defined %}
+            <li><a class="header-link" href="{{url_for('register')}}">Registration</a></li>
+            <li><a class="header-link" href="{{url_for('login')}}">Login</a></li>
+            {% endif %}
+            {% if login_username is defined %}
+            <li><a class="header-link" href="{{url_for('logout')}}">Logout</a></li>
+            {% endif %}
             </ul>
+            {% if login_username is defined %}
+            <p class="member-message">You are logged in as {{login_username}}</p>
+            {% endif %}
         </div>
     </nav>
     <div class="container-fluid main-content">
         {% block content %}
         {% endblock %}
     </div>
+    <audio>
+        <source src="{{url_for('static', filename='audio/lightsaber.mp3')}}"></source>
+        Your browser isn't invited for super fun audio time.
+    </audio>
 
 <script
   src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>

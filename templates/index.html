@@ -13,50 +13,54 @@
 <div class="modal fade in" id="citizenModal" tabindex="-1" role="dialog" aria-labelledby="citizenModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header">
-        <span id="modal-title" id="citizenModalLabel"></span>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+      <div id="spinner-modal"></div>
+      <div class="modal-container">
+        <div class="modal-header">
+          <span id="modal-title" id="citizenModalLabel"></span>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <hr class="modal-hr">
+        </div>
+        <div class="modal-body">
+          <table id="citizen-table">
+              <thead>
+                  <th class="modal-titles">Name</th>
+                  <th class="modal-titles">Height</th>
+                  <th class="modal-titles">Mass</th>
+                  <th class="modal-titles">Hair Color</th>
+                  <th class="modal-titles">Skin Color</th>
+                  <th class="modal-titles">Eye Color</th>
+                  <th class="modal-titles">Birth year</th>
+                  <th class="modal-titles">Gender</th>
+              </thead>
+              <tbody id="citizen-table-content">
+              </tbody>
+          </table>
+        </div>
         <hr class="modal-hr">
-      </div>
-      <div class="modal-body">
-        <table class="citizen-table">
-            <thead>
-                <th class="modal-titles">Name</th>
-                <th class="modal-titles">Height</th>
-                <th class="modal-titles">Mass</th>
-                <th class="modal-titles">Hair Color</th>
-                <th class="modal-titles">Skin Color</th>
-                <th class="modal-titles">Eye Color</th>
-                <th class="modal-titles">Birth year</th>
-                <th class="modal-titles">Gender</th>
-            </thead>
-            <tbody id="citizen-table-content">
-            </tbody>
-        </table>
-      </div>
-      <hr class="modal-hr">
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary close-modal-button" data-dismiss="modal">Close</button>
-      </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary close-modal-button" data-dismiss="modal">Close</button>
+        </div>
+      </div> 
     </div>
   </div>
 </div>
 
 <table class="planets-table">
-    <thead>
-        <th>Name</th>
-        <th>Diameter</th>
-        <th>Climate</th>
-        <th>Terrain</th>
-        <th>Surface Water Percentage</th>
-        <th>Population</th>
-        <th>Residents</th>
-        <th>Votes</th>
-    </thead>
-    <tbody id="planets-table-content">
-    </tbody>
+  <div id="spinner-table"></div>
+  <thead>
+      <th>Name</th>
+      <th>Diameter</th>
+      <th>Climate</th>
+      <th>Terrain</th>
+      <th>Surface Water Percentage</th>
+      <th>Population</th>
+      <th>Residents</th>
+      <th>Votes</th>
+  </thead>
+  <tbody id="planets-table-content">
+  </tbody>
 </table>
 <p id="planet-names"></p>
 

@@ -1,6 +1,6 @@
 
 let toAddData = document.getElementById("planets-table-content");
-
+ 
 let citizenTable = document.getElementById("citizen-table-content");
 
 let modalTitle = document.getElementById('modal-title')
@@ -149,19 +149,33 @@ previousButton.addEventListener("click", function (e) {
 });
 
 
+function showSpinner(spinner) {
+    spinner.classList.add("show");
+}
+
+
+function hideSpinner(spinner) {
+    spinner.classList.remove("show");
+}
+
+
 async function getAllPlanets(source) {
 
 
     toAddData.innerHTML = "";
 
+    let spinnerTable = document.getElementById("spinner-table");
+    let spinnerModal = document.getElementById("spinner-modal");
+    let modalContainer = document.querySelector(".modal-container");
+
+    showSpinner(spinnerTable);
     let response = await fetch(source);
     let data = await response.json();
+    hideSpinner(spinnerTable);
     let resultsPlanets = data.results;
 
     nextApiLink = data["next"];
     previousApiLink = data["previous"];
-
-    console.log(nextButton)
 
     nextButton.removeAttribute("disabled");
     if (nextApiLink == null) {
@@ -174,25 +188,34 @@ async function getAllPlanets(source) {
     }
     
     for (resultsPlanet of resultsPlanets) {
-
         toAddData.innerHTML += populatePlanetsTable(resultsPlanet);
         allPlanets.push(resultsPlanet['url']);
     }
     let citizenButtons = document.getElementsByClassName("residents-button");
     for (citizenButton of citizenButtons) {
         citizenButton.addEventListener('click', async function () {
+            modalContainer.classList.remove("show-citizens");
             modalTitle.textContent = "";
             citizenTable.innerHTML = "";
             modalTitle.textContent += `Residents of ${event.target.dataset.planetName}`;
-            let residentsModal = await fetch(event.target.dataset.planet);
-            let residentsModalData = await residentsModal.json();
+            let residentsModalData = await fetch(event.target.dataset.planet).
+                then((response) => response.json()).
+                then((responseJson) => {
+                    return responseJson;
+                })
+            // let residentsModalData = await residentsModal.json();
+            // if (residentsModalData) {
+            //     hideSpinner(spinnerModal);
+            // }
             let residentNames = residentsModalData['residents'];
             for (residentName of residentNames) {
+                showSpinner(spinnerModal);
                 let resultResident = await fetch(residentName);
                 let residentData = await resultResident.json();
                 citizenTable.innerHTML += populateResidentsModal(residentData)
-                        
+                hideSpinner(spinnerModal);
             }
+            modalContainer.classList.add("show-citizens");
         })
     }
 };

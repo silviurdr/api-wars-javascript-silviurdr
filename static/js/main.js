@@ -11,6 +11,13 @@ const allPlanets = []
 
 const headerLinks = document.getElementsByClassName('header-link')
 
+let apiLink = "https://swapi.co/api/planets/";
+let nextApiLink = "";
+let previousApiLink = "";
+
+const nextButton = document.getElementById("next-button");
+const previousButton = document.getElementById("previous-button");
+
 // const audio = document.getElementsByTagName("audio")[0];
 
 // // for (headerLink of headerLinks) {
@@ -20,14 +27,16 @@ const headerLinks = document.getElementsByClassName('header-link')
 // // }
 
 
-const formatDiameter = num => {
+const formatDiameter = diam => {
     let formatNum = "";
-    if (num.length > 3) {
-        formatNum += num.slice(0, (num.length - 3)) + "," + num.slice((num.length - 3), (num.length));
-    } else {
-        formatNum += num;
+    if (parseInt(diam)) {
+        if (diam.length > 3) {
+            return formatNum += diam.slice(0, (diam.length - 3)) + "," + diam.slice((diam.length - 3), (diam.length)) + "km";
+        } else {
+            return formatNum += diam + "km";
+        }
     }
-    return formatNum;
+    return diam;
 }
 
 const formatSurface = surface => {
@@ -96,7 +105,7 @@ const populatePlanetsTable = planet => {
     return `
         <tr>
             <td class="planet-name">${planet["name"]}</td>
-            <td>${formatDiameter(planet["diameter"])} km</td>
+            <td>${formatDiameter(planet["diameter"])}</td>
             <td>${planet["climate"]}</td>
             <td>${planet["terrain"]}</td>
             <td>${formatSurface(planet["surface_water"])}</td>
@@ -122,13 +131,40 @@ const populateResidentsModal = person => {
     `;
 }
 
-async function getAllPlanets() {
 
-    let response = await fetch("https://swapi.co/api/planets/");
+nextButton.addEventListener("click", function () {
+  getAllPlanets(nextApiLink);
+});
+
+previousButton.addEventListener("click", function () {
+  getAllPlanets(previousApiLink);
+});
+
+
+async function getAllPlanets(source) {
+
+
+    toAddData.innerHTML = "";
+
+    let response = await fetch(source);
     let data = await response.json();
     let resultsPlanets = data.results;
-    console.log(resultsPlanets);
+
+    nextApiLink = data["next"];
+    previousApiLink = data["previous"];
+
+    nextButton.classList.remove("pagination-button-disabled");
+    if (nextApiLink == null) {
+      nextButton.classList.add("pagination-button-disabled");
+    }
+
+    previousButton.classList.remove("pagination-button-disabled");
+    if (previousApiLink == null) {
+        previousButton.classList.add("pagination-button-disabled");
+    }
+    
     for (resultsPlanet of resultsPlanets) {
+
         toAddData.innerHTML += populatePlanetsTable(resultsPlanet);
         allPlanets.push(resultsPlanet['url']);
     }
@@ -141,7 +177,6 @@ async function getAllPlanets() {
             let residentsModal = await fetch(event.target.dataset.planet);
             let residentsModalData = await residentsModal.json();
             let residentNames = residentsModalData['residents'];
-            console.log(residentNames);
             for (residentName of residentNames) {
                 let resultResident = await fetch(residentName);
                 let residentData = await resultResident.json();
@@ -152,4 +187,4 @@ async function getAllPlanets() {
     }
 };
 
-getAllPlanets()
+getAllPlanets(apiLink);

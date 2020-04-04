@@ -15,8 +15,8 @@ let apiLink = "https://swapi.co/api/planets/";
 let nextApiLink = "";
 let previousApiLink = "";
 
-const nextButton = document.getElementById("next-button");
-const previousButton = document.getElementById("previous-button");
+let nextButton = document.getElementById("next-button");
+let previousButton = document.getElementById("previous-button");
 
 // const audio = document.getElementsByTagName("audio")[0];
 
@@ -132,12 +132,20 @@ const populateResidentsModal = person => {
 }
 
 
-nextButton.addEventListener("click", function () {
-  getAllPlanets(nextApiLink);
+nextButton.addEventListener("click", function (e) {
+    if (e.detail === 1) {
+        getAllPlanets(nextApiLink);
+    } else if (e.detail === 2) {
+        return
+    }
 });
 
-previousButton.addEventListener("click", function () {
-  getAllPlanets(previousApiLink);
+previousButton.addEventListener("click", function (e) {
+    if (e.detail === 1) {
+        getAllPlanets(previousApiLink);
+    } else if (e.detail === 2) {
+        return;
+    }
 });
 
 
@@ -153,14 +161,16 @@ async function getAllPlanets(source) {
     nextApiLink = data["next"];
     previousApiLink = data["previous"];
 
-    nextButton.classList.remove("pagination-button-disabled");
+    console.log(nextButton)
+
+    nextButton.removeAttribute("disabled");
     if (nextApiLink == null) {
-      nextButton.classList.add("pagination-button-disabled");
+        nextButton.setAttribute("disabled", true);
     }
 
-    previousButton.classList.remove("pagination-button-disabled");
+    previousButton.removeAttribute("disabled");
     if (previousApiLink == null) {
-        previousButton.classList.add("pagination-button-disabled");
+        previousButton.setAttribute("disabled", true);
     }
     
     for (resultsPlanet of resultsPlanets) {

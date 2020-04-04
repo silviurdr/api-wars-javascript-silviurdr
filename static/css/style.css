@@ -82,11 +82,6 @@ th {
     color: #282828;
 }
 
-.pagination-button-disabled {
-    cursor: not-allowed;
-    opacity: 0.4;
-}
-
 .residents-button {
     background-color: #333333;
     outline: none;

@@ -82,19 +82,19 @@ th {
     color: #282828;
 }
 
-.residents-button {
+.residents-button, .voting-button {
     background-color: #333333;
     outline: none;
     box-shadow: 0 1px 2px 0 #777, 0 1px 2px 0 #777;
 }
 
-.residents-button:hover  {
+.residents-button:hover, .voting-button:hover  {
     color: #d0b562;
     background-color: #4d4d4d;
 
 }
 
-.residents-button:active, .residents-button:focus  {
+.residents-button:active, .voting-button:active, .residents-button:focus, .voting-button:focus  {
     background-color: #333;
     color: #ccc;
     outline: none!important;

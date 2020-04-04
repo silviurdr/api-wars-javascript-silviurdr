@@ -111,7 +111,7 @@ const populatePlanetsTable = planet => {
             <td>${formatSurface(planet["surface_water"])}</td>
             <td>${formatPlanetPopulation(planet["population"])}</td>
             <td>${formatPlanetResidents(planet['residents'], planet)}</td>
-            <td>Vote</td>
+            <td><button type="button" class="btn btn-secondary voting-button">vote</button></td>
         </tr>
     `;
 }

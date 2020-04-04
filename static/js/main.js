@@ -88,7 +88,7 @@ const formatPlanetPopulation = population => {
                     (population.length - 6))},${population.slice((population.length - 6), (population.length - 3))},${population.slice((population.length - 3), population.length)} people`;
             case (population.length < 16 && population.length > 12):
                 return `${population.slice(0, (population.length) - 12)},${population.slice((population.length - 12),
-                    (population.length - 9))},${population.slice((population.length - 9), (population.length - 6))},,${population.slice((population.length - 6),
+                    (population.length - 9))},${population.slice((population.length - 9), (population.length - 6))},${population.slice((population.length - 6),
                         (population.length - 3))},${population.slice((population.length - 3), population.length)} people`;
         }
     } else return population;

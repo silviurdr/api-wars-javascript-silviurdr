@@ -110,8 +110,8 @@ const populatePlanetsTable = planet => {
             <td>${planet["terrain"]}</td>
             <td>${formatSurface(planet["surface_water"])}</td>
             <td>${formatPlanetPopulation(planet["population"])}</td>
-            <td>${formatPlanetResidents(planet['residents'], planet)}</td>
-            <td><button type="button" class="btn btn-secondary voting-button">vote</button></td>
+            <td>${formatPlanetResidents(planet["residents"], planet)}</td>
+            <th><a class="btn btn-secondary voting-button" name="button" href="${planet['name']}/vote" data-voted="${planet['name']}" data-voted-url="${planet['url']}">vote</a></th>
         </tr>
     `;
 }
@@ -190,7 +190,34 @@ async function getAllPlanets(source) {
     for (resultsPlanet of resultsPlanets) {
         toAddData.innerHTML += populatePlanetsTable(resultsPlanet);
         allPlanets.push(resultsPlanet['url']);
+        let votingButtons = document.getElementsByClassName("voting-button");
+
+        for (votingButton of votingButtons) {
+            votingButton.addEventListener("click", function (e) {
+                e.preventDefault();
+                let planetVoted = event.target.dataset.voted;
+                let planetVotedURL = event.target.dataset.votedUrl;
+                let clicked = $(this).attr("name");
+                console.log(clicked);
+                $.ajax({
+                  type: "POST",
+                  url: `/${planetVoted}/vote`,
+                    data: {
+                        'planet_name': planetVoted,
+                        'url': planetVotedURL
+                    },
+                  success: function (result) {
+                    alert(`You voted ${planetVoted}!`);
+                  },
+                  error: function (result) {
+                    alert("error");
+                  },
+                });
+            });
+        }
     }
+
+
     let citizenButtons = document.getElementsByClassName("residents-button");
     for (citizenButton of citizenButtons) {
         citizenButton.addEventListener('click', async function () {

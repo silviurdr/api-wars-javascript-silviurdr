@@ -77,6 +77,18 @@ def logout():
     return redirect('/')
 
 
+@app.route('/<planet>/vote', methods=['GET', 'POST'])
+def voting(planet):
+
+    if request.method == "POST":
+        planet_name = request.form['planet_name']
+        planet_url = request.form['url']
+        planet_id = int(''.join([l for l in planet_url if l.isdigit()]))
+
+    print('se voteaza!')
+    return redirect('/')
+
+
 if __name__ == '__main__':
     app.run(
         debug=True,

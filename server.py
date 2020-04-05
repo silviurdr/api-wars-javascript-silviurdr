@@ -81,12 +81,20 @@ def logout():
 def voting(planet):
 
     if request.method == "POST":
-        planet_name = request.form['planet_name']
+        voted_planet = {}
+        voted_planet['name'] = request.form['planet_name']
         planet_url = request.form['url']
-        planet_id = int(''.join([l for l in planet_url if l.isdigit()]))
+        voted_planet['id'] = int(''.join([l for l in planet_url if l.isdigit()]))
+        con.register_vote(voted_planet)
 
-    print('se voteaza!')
     return redirect('/')
+
+
+@app.route('/voting-stats')
+def stats():
+
+    voting_stats_json = con.get_vote_stats()
+    return voting_stats_json
 
 
 if __name__ == '__main__':

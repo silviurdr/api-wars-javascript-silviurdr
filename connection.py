@@ -1,5 +1,5 @@
 import database_common
-
+import json
 
 @database_common.connection_handler
 def check_if_already_registered(cursor, username):
@@ -40,3 +40,29 @@ def get_password_for_user(cursor, user):
     """.format(user))
     password_dict = cursor.fetchone()
     return password_dict
+
+
+@database_common.connection_handler
+def register_vote(cursor, voted_planet):
+    cursor.execute("""
+    INSERT INTO planet_votes
+    (planet_id, planet_name, user_id, submission_time)
+    VALUES ({0}, '{1}', {2}, CURRENT_TIMESTAMP(0));
+    """.format(voted_planet['id'], voted_planet['name'], 17))
+
+
+@database_common.connection_handler
+def get_vote_stats(cursor):
+    cursor.execute("""
+    SELECT planet_name, COUNT(id) from planet_votes
+    GROUP by planet_name
+    """)
+    voting_stats = cursor.fetchall()
+    json_voting_stats = {"vote_results": []}
+    voted_planets = len(voting_stats)
+    for i in range(voted_planets):
+        json_voting_stats['vote_results'].append({"planet_name": voting_stats[i]['planet_name'],
+                                           "voting_stats": voting_stats[i]['count']})
+    return json_voting_stats
+
+

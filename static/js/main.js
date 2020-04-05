@@ -1,7 +1,7 @@
 
 let toAddData = document.getElementById("planets-table-content");
- 
 let citizenTable = document.getElementById("citizen-table-content");
+let statsTable = document.getElementById("stats-table-content");
 
 let modalTitle = document.getElementById('modal-title')
 
@@ -20,11 +20,11 @@ let previousButton = document.getElementById("previous-button");
 
 // const audio = document.getElementsByTagName("audio")[0];
 
-// // for (headerLink of headerLinks) {
-// //     headerLink.addEventListener('mouseover', function () {
-// //         audio.play();
-// //     })
-// // }
+// for (headerLink of headerLinks) {
+//     headerLink.addEventListener('mouseover', function () {
+//         audio.play();
+//     })
+// }
 
 
 const formatDiameter = diam => {
@@ -132,6 +132,18 @@ const populateResidentsModal = person => {
 }
 
 
+const populateStatsModal = (planet) => {
+  return `
+        <tr>
+            <td class="modal-data">${planet["planet_name"]}</td>
+            <td class="modal-data">${planet["voting_stats"]}</td>
+        </tr>
+    `;
+};
+
+
+
+
 nextButton.addEventListener("click", function (e) {
     if (e.detail === 1) {
         getAllPlanets(nextApiLink);
@@ -159,13 +171,32 @@ function hideSpinner(spinner) {
 }
 
 
+let votingStatsButton = document.getElementById("voting-stats-button")
+votingStatsButton.addEventListener('click', async function () {
+    statsTable.innerHTML = ""
+    let modalContainerStats = document.querySelector(".modal-container-stats");
+    modalContainerStats.classList.add('show-stats');
+    $.ajax({
+      type: "GET",
+      url: "/voting-stats",
+      success: function (result) {
+          for (planet of result['vote_results']) {
+              statsTable.innerHTML += populateStatsModal(planet);
+          }
+      },
+      error: function (result) {
+        alert("error");
+      },
+    });
+})
+
+
 async function getAllPlanets(source) {
 
 
     toAddData.innerHTML = "";
 
     let spinnerTable = document.getElementById("spinner-table");
-    let spinnerModal = document.getElementById("spinner-modal");
     let modalContainer = document.querySelector(".modal-container");
 
     showSpinner(spinnerTable);
@@ -189,6 +220,12 @@ async function getAllPlanets(source) {
     
     for (resultsPlanet of resultsPlanets) {
         toAddData.innerHTML += populatePlanetsTable(resultsPlanet);
+        registeredUser = document.querySelector(".member-message");
+        voteButtonsStatus = document.querySelectorAll(".voting-button");
+        if (registeredUser == null) {
+            for (voteButtonStatus of voteButtonsStatus)
+                voteButtonStatus.classList.add("hide-vote-button");
+        }
         allPlanets.push(resultsPlanet['url']);
         let votingButtons = document.getElementsByClassName("voting-button");
 
@@ -197,8 +234,6 @@ async function getAllPlanets(source) {
                 e.preventDefault();
                 let planetVoted = event.target.dataset.voted;
                 let planetVotedURL = event.target.dataset.votedUrl;
-                let clicked = $(this).attr("name");
-                console.log(clicked);
                 $.ajax({
                   type: "POST",
                   url: `/${planetVoted}/vote`,
@@ -221,6 +256,8 @@ async function getAllPlanets(source) {
     let citizenButtons = document.getElementsByClassName("residents-button");
     for (citizenButton of citizenButtons) {
         citizenButton.addEventListener('click', async function () {
+            let spinnerModal = document.getElementById("spinner-modal");
+            showSpinner(spinnerModal);
             modalContainer.classList.remove("show-citizens");
             modalTitle.textContent = "";
             citizenTable.innerHTML = "";
@@ -230,18 +267,14 @@ async function getAllPlanets(source) {
                 then((responseJson) => {
                     return responseJson;
                 })
-            // let residentsModalData = await residentsModal.json();
-            // if (residentsModalData) {
-            //     hideSpinner(spinnerModal);
-            // }
             let residentNames = residentsModalData['residents'];
             for (residentName of residentNames) {
-                showSpinner(spinnerModal);
                 let resultResident = await fetch(residentName);
                 let residentData = await resultResident.json();
                 citizenTable.innerHTML += populateResidentsModal(residentData)
-                hideSpinner(spinnerModal);
             }
+            hideSpinner(spinnerModal);
+
             modalContainer.classList.add("show-citizens");
         })
     }

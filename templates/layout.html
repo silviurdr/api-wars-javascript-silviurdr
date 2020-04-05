@@ -18,7 +18,7 @@
             </div>
             <ul class="nav navbar-nav">
             <li class="active"><a class="header-link" href="/">Planet List</a></li>
-            <li><a class="header-link" href="#">Voting Statistics</a></li>
+            <li><a class="header-link" id="voting-stats-button" href="#" data-toggle="modal" data-target="#statsModal">Voting Statistics</a></li>
             {% if login_username is not defined %}
             <li><a class="header-link" href="{{url_for('register')}}">Registration</a></li>
             <li><a class="header-link" href="{{url_for('login')}}">Login</a></li>
@@ -32,6 +32,37 @@
             {% endif %}
         </div>
     </nav>
+
+    <div class="modal fade in" id="statsModal" tabindex="-1" role="dialog" aria-labelledby="statsModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-container-stats">
+                <div class="modal-header">
+                <span id="statsModalLabel" style="margin-left: 1em">Voting Stats</span>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <hr class="modal-hr">
+                </div>
+                <div class="modal-body">
+                <table id="stats-table">
+                    <thead>
+                        <th class="modal-titles">Planet name</th>
+                        <th class="modal-titles">Received votes</th>
+                    </thead>
+                    <tbody id="stats-table-content">
+                    </tbody>
+                </table>
+                </div>
+                <hr class="modal-hr">
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary close-modal-button" data-dismiss="modal">Close</button>
+                </div>
+            </div> 
+            </div>
+        </div>
+    </div>
+
     <div class="container-fluid main-content">
         {% block content %}
         {% endblock %}

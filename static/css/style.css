@@ -48,6 +48,7 @@ th {
 
 .header-link:hover, .header-link:focus {
     color: #ccc !important;
+    cursor: pointer;
 }
 
 .main-content {
@@ -250,8 +251,21 @@ input {
     visibility: hidden;
 }
 
+.modal-container-stats {
+
+}
+
 
 .show-citizens {
     visibility: visible;
 }
 
+.show-stats {
+    visibility: visible;
+}
+
+
+.hide-vote-button {
+    display: none;
+    visibility: hidden;
+}

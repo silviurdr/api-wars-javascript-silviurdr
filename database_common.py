@@ -6,14 +6,6 @@ import urllib
 
 urllib.parse.uses_netloc.append('postgres')
 url = urllib.parse.urlparse(os.environ.get('DATABASE_URL'))
-connection = psycopg2.connect(
-    database=url.path[1:],
-    user=url.username,
-    password=url.password,
-    host=url.hostname,
-    port=url.port
-)
-connection.autocommit = True
 
 
 # def get_connection_string():
@@ -38,15 +30,20 @@ connection.autocommit = True
 #             'Some necessary environment variable(s) are not defined')
 
 
-# def open_database():
-#     try:
-#         connection_string = get_connection_string()
-#         connection = psycopg2.connect(connection_string)
-#         connection.autocommit = True
-#     except psycopg2.DatabaseError as exception:
-#         print('Database connection problem')
-#         raise exception
-#     return connection
+def open_database():
+    try:
+        connection = psycopg2.connect(
+        database=url.path[1:],
+        user=url.username,
+        password=url.password,
+        host=url.hostname,
+        port=url.port
+        )
+        connection.autocommit = True
+    except psycopg2.DatabaseError as exception:
+        print('Database connection problem')
+        raise exception
+    return connection
 
 
 def connection_handler(function):

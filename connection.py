@@ -43,12 +43,12 @@ def get_password_for_user(cursor, user):
 
 
 @database_common.connection_handler
-def register_vote(cursor, voted_planet):
+def register_vote(cursor, voted_planet, user_id):
     cursor.execute("""
     INSERT INTO planet_votes
     (planet_id, planet_name, user_id, submission_time)
     VALUES ({0}, '{1}', {2}, CURRENT_TIMESTAMP(0));
-    """.format(voted_planet['id'], voted_planet['name'], 17))
+    """.format(voted_planet['id'], voted_planet['name'], user_id))
 
 
 @database_common.connection_handler
@@ -65,4 +65,13 @@ def get_vote_stats(cursor):
                                            "voting_stats": voting_stats[i]['count']})
     return json_voting_stats
 
+
+@database_common.connection_handler
+def get_user_id_for_username(cursor, username):
+    cursor.execute("""
+    SELECT user_id from users
+    WHERE username='{username}'
+    """)
+    user_id = cursor.fetchone()
+    return user_id
 

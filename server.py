@@ -86,7 +86,8 @@ def voting(planet):
         voted_planet['name'] = request.form['planet_name']
         planet_url = request.form['url']
         voted_planet['id'] = int(''.join([l for l in planet_url if l.isdigit()]))
-        con.register_vote(voted_planet)
+        user_id = connection.get_user_id_for_username(session['username'])
+        con.register_vote(voted_planet, user_id['user_id'])
 
     return redirect('/')
 

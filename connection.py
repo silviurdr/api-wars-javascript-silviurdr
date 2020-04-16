@@ -68,7 +68,7 @@ def get_vote_stats(cursor):
 
 @database_common.connection_handler
 def get_user_id_for_username(cursor, username):
-    cursor.execute("""
+    cursor.execute(f"""
     SELECT id from users
     WHERE username='{username}'
     """)

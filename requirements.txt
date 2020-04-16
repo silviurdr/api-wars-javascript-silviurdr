@@ -1,3 +1,5 @@
 flask
 psycopg2
 bcrypt
+requests==2.9.1
+gunicorn-20.0.4

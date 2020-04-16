@@ -11,7 +11,7 @@ const allPlanets = []
 
 const headerLinks = document.getElementsByClassName('header-link')
 
-let apiLink = "https://swapi.co/api/planets/";
+let apiLink = "https://swapi.dev/api/planets/";
 let nextApiLink = "";
 let previousApiLink = "";
 
@@ -140,8 +140,6 @@ const populateStatsModal = (planet) => {
         </tr>
     `;
 };
-
-
 
 
 nextButton.addEventListener("click", function (e) {

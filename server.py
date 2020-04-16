@@ -89,7 +89,7 @@ def voting(planet):
         voted_planet['id'] = int(''.join([l for l in planet_url if l.isdigit()]))
         print('cineeeee', con.get_user_id_for_username(session['username']))
         user_id = con.get_user_id_for_username(session['username'])
-        con.register_vote(voted_planet, user_id['user_id'])
+        con.register_vote(voted_planet, user_id['id'])
 
     return redirect('/')
 

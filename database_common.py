@@ -13,6 +13,7 @@ connection = psycopg2.connect(
     host=url.hostname,
     port=url.port
 )
+connection.autocommit = True
 
 
 # def get_connection_string():
